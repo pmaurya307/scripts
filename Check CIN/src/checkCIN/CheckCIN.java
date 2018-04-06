@@ -33,8 +33,7 @@ public class CheckCIN {
 
 	public Boolean checkCINThor(String cin) throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@sedsprddb.suntrust.com:1525:sedsentp", "THOR",
-				"thorprd01");
+		Connection con = DriverManager.getConnection();
 		PreparedStatement stmt = con.prepareStatement("select cin from t_clt where cin = ?");
 		stmt.setString(1, cin);
 		ResultSet rs = stmt.executeQuery();
