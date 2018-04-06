@@ -21,8 +21,7 @@ import java.util.logging.SimpleFormatter;
 public class ECCBatchProcessing {
 
 	// Create a variable for the connection string.
-	private static final String connectionUrl = "jdbc:sqlserver://GA016VSQL0E7;"
-			+ "databaseName=ECCXport_Data;user=uzpisq1;password=imgwrite";
+	private static final String connectionUrl = ;
 
 	private static String userName = System.getProperty("user.name");
 
@@ -43,12 +42,10 @@ public class ECCBatchProcessing {
 			con = DriverManager.getConnection(connectionUrl);
 
 			// Create and execute an SQL statement that returns some data.
-			String query = "select BAT_ID from T_BAT where LOAD_DTTM>=? and PROCES_STAT_ID=? and BAT_GRP_ID=?";
+			String query = ;
 			stmt = con.prepareStatement(query);
 
-			stmt.setDate(1, loadDttm);
-			stmt.setInt(2, procesStatId);
-			stmt.setString(3, batGrpId);
+			
 
 			rs = stmt.executeQuery();
 
@@ -92,7 +89,7 @@ public class ECCBatchProcessing {
 			con = DriverManager.getConnection(connectionUrl);
 
 			// Create and execute an SQL statement that returns some data.
-			String query = "select BAT_ID from T_BAT where LOAD_DTTM>=? and PROCES_STAT_ID>500 and BAT_GRP_ID=?";
+			String query = ;
 			stmt = con.prepareStatement(query);
 
 			stmt.setDate(1, loadDttm);
@@ -129,12 +126,12 @@ public class ECCBatchProcessing {
 		return batchIds;
 	}
 
-	public static void reprocessCPR003() {
+	public static void reprocess() {
 
 		Calendar today = Calendar.getInstance();
 		today.set(2018, 1, 25);
 		Date loadDttm = new Date(today.getTimeInMillis());
-		List<String> batchIds = getXportBatches(loadDttm, 1301, "CPR003");
+		List<String> batchIds = getXportBatches(loadDttm, 1301,);
 
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -158,7 +155,7 @@ public class ECCBatchProcessing {
 					bw.write(batchId + "\r\n");
 					System.out.println("Updating : " + batchId + "\n");
 
-					String sql = "update t_bat set PROCES_STAT_ID=130 where bat_id=?";
+					String sql =;
 					stmt = con.prepareStatement(sql);
 					stmt.setString(1, batchId);
 
@@ -200,12 +197,12 @@ public class ECCBatchProcessing {
 
 	}
 
-	public static void reprocessNACDPST01() {
+	public static void reprocess() {
 
 		Calendar today = Calendar.getInstance();
 		today.set(2018, 1, 25);
 		Date loadDttm = new Date(today.getTimeInMillis());
-		List<String> batchIds = getXportBatches(loadDttm, 2120, "NACDPST01");
+		List<String> batchIds = getXportBatches(loadDttm, 2120,);
 
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -229,7 +226,7 @@ public class ECCBatchProcessing {
 					bw.write(batchId + "\r\n");
 					System.out.println("Updating : " + batchId);
 
-					String sql = "update t_bat set PROCES_STAT_ID=211 where bat_id=?";
+					String sql = ;
 					stmt = con.prepareStatement(sql);
 					stmt.setString(1, batchId);
 
@@ -286,9 +283,9 @@ public class ECCBatchProcessing {
 				statusDescMap = new LinkedHashMap<>();
 
 				// Create and execute an SQL statement that returns some data.
-				String query = "select BAT_STAT from T_STATS where bat_id=? order by BAT_DTTM";
+				String query = ;
 				stmt = con.prepareStatement(query);
-				stmt.setString(1, batchId);
+				
 
 				rs = stmt.executeQuery();
 
@@ -298,9 +295,9 @@ public class ECCBatchProcessing {
 
 					String statusDesc = null;
 
-					query = "select PROCES_STAT_DESC from ECCXport_Data.dbo.T_PROCES_STAT where PROCES_STAT_ID=?";
+					query =;
 					stmt = con.prepareStatement(query);
-					stmt.setString(1, statusCode);
+					
 
 					rs1 = stmt.executeQuery();
 
@@ -313,8 +310,7 @@ public class ECCBatchProcessing {
 
 				// Add Error into MAP
 				stmt = con.prepareStatement(
-						"select ERR_DESC from ECCErrorHandler.dbo.T_ERR where BAT_ID=? order by ERR_HANDLER_DTTM");
-				stmt.setString(1, batchId);
+						
 
 				rs = stmt.executeQuery();
 				while (rs.next()) {
@@ -371,9 +367,7 @@ public class ECCBatchProcessing {
 				con = DriverManager.getConnection(connectionUrl);
 				batGrpIds = new ArrayList<>();
 				// Create and execute an SQL statement that returns some data.
-				String query = "select DISTINCT BAT_GRP_ID from ECCXport_Data.dbo.T_BAT where PROCES_STAT_ID>500 and LOAD_DTTM>=?";
-				stmt = con.prepareStatement(query);
-				stmt.setDate(1, loadDttm);
+				String query = 
 
 				rs = stmt.executeQuery();
 
@@ -637,9 +631,7 @@ public class ECCBatchProcessing {
 
 				for (String batchId : batchIds) {
 					// Create and execute an SQL statement that returns some data.
-					String query = "select PROCES_STAT_ID from ECCXport_Data.dbo.T_BAT where BAT_ID=?";
-					stmt = con.prepareStatement(query);
-					stmt.setString(1, batchId);
+					String query = 
 					rs = stmt.executeQuery();
 					// Iterate through the data in the result set and display it.
 					while (rs.next()) {
@@ -760,7 +752,7 @@ public class ECCBatchProcessing {
 					Map<String, String> statusDescMap = getBatchStatusAndError(batchId);
 
 					if (statusDescMap.isEmpty()) {
-						System.out.println("No records present for : '" + batchId + "' in ECCXport_Data.dbo.T_BAT");
+						System.out.println("No records present for : '" + batchId + "' in ");
 					} else {
 						System.out.println("Status \t\t Desc");
 						statusDescMap.forEach((k, v) -> System.out.println(k + "\t\t" + v + "\n"));
@@ -877,7 +869,7 @@ public class ECCBatchProcessing {
 			List<String> batGrpIds = getBatGrpIds(loadDttm);
 			System.out.println("BAT_GRP_IDS having error batches after : '" + loadDttm + "' are : " + batGrpIds + "\n");
 
-			System.out.println("Please enter a BAT_GRP_ID or 'E' to exit : ");
+			System.out.println("Please enter a  or 'E' to exit : ");
 
 			// Scanner scanner = new Scanner(System.in);
 			String batGrpId = scanner.next();
@@ -887,7 +879,7 @@ public class ECCBatchProcessing {
 					if (batGrpIds.contains(batGrpId.toUpperCase())) {
 						break;
 					} else {
-						System.out.println("Invalid BAT_GRP_ID.Please enter again : ");
+						System.out.println("Invalid .Please enter again : ");
 						batGrpId = scanner.next();
 					}
 
