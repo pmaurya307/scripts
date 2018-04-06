@@ -20,12 +20,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class MSCVUpdate {
 	// Create a variable for the connection string.
-	private static final String connectionUrl = "jdbc:sqlserver://GA016VSQL0E7;"
-			+ "databaseName=ECCXport_Data_Hst;user=uzpisq1;password=imgwrite";
+	private static final String connectionUrl = ;
 
 	private static String  userName= System.getProperty("user.name");
 
-	public static List<String> getBatchIdsByArchvDttm(String batGrpId, Date archvDttm, Date toDttm) {
+	public static List<String> getBatchIdsByArchvDttm() {
 		List<String> batchIds = new ArrayList<>();
 		Connection con=null;
 		PreparedStatement stmt=null;
@@ -36,12 +35,9 @@ public class MSCVUpdate {
 			con = DriverManager.getConnection(connectionUrl);
 
 			// Create and execute an SQL statement that returns some data.
-			stmt = con.prepareStatement(
-					"select BAT_ID from T_BAT where BAT_GRP_ID=? and ARCHV_DTTM>=? and ARCHV_DTTM<?");
+			stmt = con.prepareStatement();
 
-			stmt.setString(1, batGrpId);
-			stmt.setDate(2, archvDttm);
-			stmt.setDate(3, toDttm);
+			
 
 			rs = stmt.executeQuery();
 
@@ -87,7 +83,7 @@ public class MSCVUpdate {
 			Date date=new Date(Calendar.getInstance().getTimeInMillis());
 			String filename="C:\\Users\\"+userName+"\\Documents\\MSCV001\\MSCVBackup-"+date+".xls";
 			HSSFWorkbook hwb=new HSSFWorkbook();
-			HSSFSheet sheet =  hwb.createSheet("T_BAT_DATA");
+			HSSFSheet sheet =  hwb.createSheet("");
 						
 			
 			System.out.println("Writing header");
@@ -96,10 +92,10 @@ public class MSCVUpdate {
 			
 			
 			
-			rowhead.createCell((short) 0).setCellValue("BAT_ID");
-			rowhead.createCell((short) 1).setCellValue("BAT_GRP_ID");
-			rowhead.createCell((short) 2).setCellValue("FLD_ID");
-			rowhead.createCell((short) 3).setCellValue("FLD_VAL_TXT");
+			rowhead.createCell((short) 0).setCellValue("");
+			rowhead.createCell((short) 1).setCellValue("");
+			rowhead.createCell((short) 2).setCellValue("");
+			rowhead.createCell((short) 3).setCellValue("");
 			
 
 			
@@ -109,7 +105,7 @@ public class MSCVUpdate {
 			int i=1;
 			
 			for (String batchId : batchIds) {
-				sql="SELECT * FROM T_BAT_DATA WHERE BAT_ID=?";
+				sql="";
 				stmt = con.prepareStatement(sql);
 				stmt.setString(1, batchId);
 				rs = stmt.executeQuery();
@@ -165,7 +161,7 @@ public class MSCVUpdate {
 
 		String slaDeadline = null;
 		toDate.add(Calendar.DATE, 1);
-		List<String> batchIds = getBatchIdsByArchvDttm("MSCV001", new Date(today.getTimeInMillis()),
+		List<String> batchIds = getBatchIdsByArchvDttm("", new Date(today.getTimeInMillis()),
 				new Date(toDate.getTimeInMillis()));
 		Connection con=null;
 		PreparedStatement stmt=null;
@@ -189,8 +185,7 @@ public class MSCVUpdate {
 
 				for (String batchId : batchIds) {
 					// Create and execute an SQL statement that returns some data.
-					stmt = con.prepareStatement("select fld_val_txt from T_BAT_DATA where BAT_ID=? and fld_id=1078");
-					stmt.setString(1, batchId);
+					stmt = con.prepareStatement();
 
 					rs = stmt.executeQuery();
 
@@ -213,7 +208,7 @@ public class MSCVUpdate {
 						bw.write("New SLA DTTM : " + slaDeadline + "\r\n");
 						System.out.println("New SLA DTTM : " + slaDeadline);
 
-						String sql = "update t_bat_data set fld_val_txt=? where bat_id=? and fld_id=1078";
+						String sql = "";
 						stmt = con.prepareStatement(sql);
 						stmt.setString(1, slaDeadline);
 						stmt.setString(2, batchId);
