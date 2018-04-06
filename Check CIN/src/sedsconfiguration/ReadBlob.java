@@ -13,8 +13,7 @@ public class ReadBlob {
 		ResultSet rs=null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@sedsprddb.suntrust.com:1525:sedsentp", "SEDSOP",
-					"vegaprod1");
+			con = DriverManager.getConnection(");
 			stmt = con.prepareStatement(query);
 			
 			rs = stmt.executeQuery();
@@ -57,7 +56,7 @@ public class ReadBlob {
 	public static void main(String[] args) {
 		int i = 1;
 		while (i<48005) {
-			String query= "select utl_raw.cast_to_varchar2(dbms_lob.substr(CONTENT, 2000, "+i+")) from configuration where configuration_id = '742'";
+			String query= "";
 			
 			rdblb(query);
 			i+=2000;
