@@ -739,14 +739,14 @@ public class ECCBatchProcessing {
 					// Create and execute an SQL statement that returns some data.
 					/*
 					 * String query =
-					 * "select PROCES_STAT_ID from ECCXport_Data.dbo.T_BAT where BAT_ID=?"; stmt =
+					 * ""; stmt =
 					 * con.prepareStatement(query); stmt.setString(1, batchId); rs =
 					 * stmt.executeQuery(); if (rs.next()) { // Iterate through the data in the
 					 * result set and display it. System.out.println("Current Batch Status : " +
 					 * rs.getString(1));
 					 * 
 					 * } else { System.out.println("No records present for : '" + batchId +
-					 * "' in ECCXport_Data.dbo.T_BAT"); }
+					 * "' in "); }
 					 */
 
 					Map<String, String> statusDescMap = getBatchStatusAndError(batchId);
